@@ -30,7 +30,6 @@ export function Modal({
           document.getElementById(key)?.remove();
         }, 5000);
       }, 1000);
-
       return () => clearInterval(interval);
     }
     return () => setAnimations([]);
