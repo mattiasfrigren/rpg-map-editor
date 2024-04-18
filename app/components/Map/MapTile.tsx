@@ -17,7 +17,7 @@ export function MapTile({ id, img }: Readonly<{ id: string; img?: string }>) {
       setTile(editTile.tile);
     }
   }, [editTile, id, img, image, tile]);
-  const t1 = "wwwill i apper0";
+
   return (
     <img
       src={image}
