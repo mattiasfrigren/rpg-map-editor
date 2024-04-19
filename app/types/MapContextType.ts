@@ -7,7 +7,6 @@ export type MapContextType = {
     | {
         id: string | undefined;
         tile: MapTile;
-        src?: string;
       }
     | undefined;
   setEditTile: React.Dispatch<
@@ -15,7 +14,6 @@ export type MapContextType = {
       | {
           id: string | undefined;
           tile: MapTile;
-          src?: string;
         }
       | undefined
     >

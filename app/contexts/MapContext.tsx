@@ -24,7 +24,6 @@ export const MapContextProvider = ({
   const [editTile, setEditTile] = useState<{
     id: string | undefined;
     tile: MapTile;
-    src?: string;
   }>();
 
   const showEditBar = useMemo(() => {

@@ -4,9 +4,9 @@ type Props = {
   icon?: JSX.Element;
 };
 
-export function ReworkTileButton({ onClick, content, icon }: Props) {
+export function ReworkTileButton({ onClick, content, icon }: Readonly<Props>) {
   return (
-    <button onClick={onClick}>
+    <button className="h-26 w-26" onClick={onClick}>
       {icon}
       {content}
     </button>

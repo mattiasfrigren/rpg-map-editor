@@ -15,9 +15,9 @@ export default function Tile() {
   const { tile } = useLoaderData<typeof loader>();
 
   return (
-    <div className="h-1/3 w-1/3 mr-auto ml-auto">
+    <div className="h-1/3 w-1/3 mr-auto ml-auto text-center">
+      <h1 className="pt-8 font-bold text-2xl pb-4">{tile.name}</h1>
       <img src={tile.src} alt={tile.name} />
-      <p>{tile.name}</p>
     </div>
   );
 }

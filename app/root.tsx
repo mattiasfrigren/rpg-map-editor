@@ -9,6 +9,7 @@ export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export const loader = async () => {
   const Images = await images.getAll();
+  //TODO fetch Tiles from datasource and add to globalData
   return json({ Images });
 };
 
