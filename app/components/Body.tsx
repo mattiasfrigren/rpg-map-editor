@@ -5,15 +5,18 @@ import {
   LiveReload,
 } from "@remix-run/react";
 import { Navbar } from ".";
+import { GameStateProvider } from "~/contexts/GameStateContext";
 
 export function Body() {
   return (
     <body>
-      <Navbar />
-      <Outlet />
-      <ScrollRestoration />
-      <Scripts />
-      <LiveReload />
+      <GameStateProvider>
+        <Navbar />
+        <Outlet />
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </GameStateProvider>
     </body>
   );
 }

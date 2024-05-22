@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "@remix-run/react";
+import { useGameStateContext } from "~/contexts/GameStateContext";
 
 const navigation = [
   { name: "Home", to: "/", current: true },
@@ -14,6 +15,7 @@ function classNames(...classes: string[]) {
 }
 
 export function Navbar() {
+  const { isGameMode, setIsGameMode } = useGameStateContext();
   return (
     <Disclosure as="nav" className="bg-deep-purple">
       {({ open }) => (
@@ -54,6 +56,12 @@ export function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <Disclosure.Button
+                  onClick={() => setIsGameMode(!isGameMode)}
+                  className="relative inline-flex items-center justify-center rounded-md p-2 mr-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                >
+                  {isGameMode ? "Gaming Mode" : "Editor Mode"}
+                </Disclosure.Button>
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>

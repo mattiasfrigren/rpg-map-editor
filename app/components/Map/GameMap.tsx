@@ -5,7 +5,6 @@ import { useCtx } from "~/contexts/MapContext";
 export function GameMap() {
   const [gridSize, setGridSize] = useState({ rows: 6, columns: 6 });
   const { editTile } = useCtx();
-
   const calculateAdjustedGridSize = (nextGridSize: number) => {
     const newRows = Math.round(10 * nextGridSize);
     const newColumns = Math.round(10 * nextGridSize);

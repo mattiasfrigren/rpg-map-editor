@@ -11,6 +11,7 @@ import { Images } from "~/images/Walls";
 import { ReworkTileButton } from "../ReworkTileButton";
 import { useCtx } from "~/contexts/MapContext";
 import { useState } from "react";
+import { MapTile } from "~/types";
 
 export function EditTileBar() {
   const [tileImage, setTileImage] = useState<string | undefined>();
@@ -18,43 +19,37 @@ export function EditTileBar() {
   const { showEditBar, closeEditBar, editTile, setEditTile } = useCtx();
   const iconCls = "ml-auto mr-auto";
 
-  const moveTile = (deltaX: number, deltaY: number) => {
+  const updateEditTile = (updateFunction: (prevTile: MapTile) => MapTile) => {
     if (!editTile) return;
-    setEditTile(() => ({
+    setEditTile({
       ...editTile,
-      tile: {
-        ...editTile.tile,
-        x: editTile.tile.x + deltaX,
-        y: editTile.tile.y + deltaY,
-      },
+      tile: updateFunction(editTile.tile),
+    });
+  };
+
+  const moveTile = (deltaX: number, deltaY: number) => {
+    updateEditTile((prevTile) => ({
+      ...prevTile,
+      x: prevTile.x + deltaX,
+      y: prevTile.y + deltaY,
     }));
   };
 
   const rotateTile = (deg: number) => {
-    if (!editTile) return;
-    setEditTile(() => ({
-      ...editTile,
-      id: editTile?.id,
-      tile: {
-        ...editTile.tile,
-        rotation: editTile.tile.rotation + deg,
-      },
+    updateEditTile((prevTile) => ({
+      ...prevTile,
+      rotation: prevTile.rotation + deg,
     }));
   };
 
   const adjustImageSize = (height: number, width: number) => {
-    if (!editTile?.tile.image) return;
-    const newImg = editTile.tile.image;
-    newImg.h = height;
-    newImg.w = width;
-    setEditTile(() => ({
-      ...editTile,
-      id: editTile.id,
-      tile: {
-        ...editTile.tile,
-        image: newImg,
-      },
-    }));
+    updateEditTile((prevTile) => {
+      if (!prevTile.image) return prevTile;
+      return {
+        ...prevTile,
+        image: { ...prevTile.image, h: height, w: width },
+      };
+    });
   };
   return (
     <Transition
@@ -68,7 +63,7 @@ export function EditTileBar() {
       className="fixed right-0 top-0 h-full w-96 bg-white shadow-md z-50"
     >
       <div className="flex flex-col items-center justify-center gap-2">
-        <h1 className=" items-center p-4 font-bold">{editTile?.id}</h1>
+        <h1 className=" items-center p-4 font-bold">{editTile?.id ?? "X,X"}</h1>
 
         <div className="flex-col">
           <h2>Import a Tile Image</h2>
@@ -120,7 +115,7 @@ export function EditTileBar() {
               }
             />
             <p className="self-center">
-              {"X:" + editTile?.tile.x + " Y:" + editTile?.tile.y}
+              {"X:" + (editTile?.tile.x ?? 0) + " Y:" + (editTile?.tile.y ?? 0)}
             </p>
             <ReworkTileButton
               onClick={() => moveTile(1, 0)}

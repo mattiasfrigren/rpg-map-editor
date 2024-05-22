@@ -14,6 +14,14 @@ export const images = {
     images.records[values.name] = newImage;
     return newImage;
   },
+  async set(id: string, value: Image): Promise<Image | null> {
+    let img = await images.get(id);
+    if (img) {
+      img = value;
+      images.records[id] = img;
+    }
+    return img;
+  },
 };
 
 Images.forEach((img) => images.create(img));

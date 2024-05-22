@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useGameStateContext } from "~/contexts/GameStateContext";
 import { useCtx } from "~/contexts/MapContext";
 import type { MapTile } from "~/types";
 
@@ -9,8 +10,9 @@ export function MapTile({ id, img }: Readonly<{ id: string; img?: string }>) {
     rotation: 0,
     image: undefined,
   });
-
+  const { isGameMode } = useGameStateContext();
   const { setEditTile, editTile } = useCtx();
+
   useEffect(() => {
     if (editTile?.id === id && editTile.tile !== tile) {
       setTile(editTile.tile);
@@ -21,8 +23,9 @@ export function MapTile({ id, img }: Readonly<{ id: string; img?: string }>) {
     <div
       id={id}
       className={`h-60 w-60 hover:outline-slate-800 hover:outline hover:border-none hover:outline-4 relative
-    ${!tile.image && "border-solid border-gray-500 border-2 "}
-    ${id === editTile?.id && "outline-dashed"} 
+    ${!tile.image && !isGameMode && "border-solid border-gray-500 border-2 "}
+    ${id === editTile?.id && !isGameMode && "outline-dashed"} 
+    ${!tile.image?.src && isGameMode && "blur-3xl"}
     `}
       style={{
         transform: `rotate(${tile.rotation}deg)`,
@@ -31,7 +34,9 @@ export function MapTile({ id, img }: Readonly<{ id: string; img?: string }>) {
         top: tile.y,
       }}
       role="presentation"
-      onClick={() => setEditTile({ tile: tile, id: id })}
+      onClick={() =>
+        !isGameMode ? setEditTile({ tile: tile, id: id }) : undefined
+      }
     >
       <img
         className="h-full w-full max-w-xs max-h-80"
